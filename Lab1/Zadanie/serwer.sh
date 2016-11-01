@@ -13,4 +13,8 @@ do
   fi
   let wynik=liczba*5;
   echo $wynik > wyniki.txt
+
+  if [[ -e "tworek.txt" ]]; then
+  rm tworek.txt
+  fi
 done

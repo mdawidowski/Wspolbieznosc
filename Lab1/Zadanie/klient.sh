@@ -5,14 +5,13 @@ echo Podaj liczbe:
 read liczba
 
 echo $liczba > dane.txt
+echo "Wynik to: "
 
-pomoc=$(cat "wyniki.txt")
-
-wynik=$(cat "wyniki.txt")
-
-while [[ wynik = pomoc ]]; do
+echo > tworek.txt
+while [[ -e "tworek.txt" ]]; do
+  liczba=1
+  done
   wynik=$(cat "wyniki.txt")
-done
   echo $wynik
 
 exit
