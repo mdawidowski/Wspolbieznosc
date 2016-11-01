@@ -1,10 +1,18 @@
 #!/bin/bash
-rm wyniki.txt
+
 echo Podaj liczbe:
+
 read liczba
+
 echo $liczba > dane.txt
-while [[ -e "wyniki.txt" ]]; do
+
+pomoc=$(cat "wyniki.txt")
+
+wynik=$(cat "wyniki.txt")
+
+while [[ wynik = pomoc ]]; do
   wynik=$(cat "wyniki.txt")
-  echo $wynik
-  break;
 done
+  echo $wynik
+
+exit
