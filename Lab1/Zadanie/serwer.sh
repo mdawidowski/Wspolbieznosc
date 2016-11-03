@@ -5,16 +5,12 @@ do
   if [ -e "dane.txt" ]
   then
     liczba=$(cat "dane.txt")
+    let wynik=liczba*5;
+    echo $wynik > wyniki.txt
+    echo > tworek.txt
   fi
-
-  if [ -e "dane.txt" ]
-    then
-        rm dane.txt
-  fi
-  let wynik=liczba*5;
-  echo $wynik > wyniki.txt
 
   if [[ -e "tworek.txt" ]]; then
-  rm tworek.txt
+    rm tworek.txt
   fi
 done
