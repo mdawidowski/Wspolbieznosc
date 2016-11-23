@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -i x
+declare -i licznik
 
 dir=$(pwd)
 
@@ -9,17 +9,17 @@ if [ -d "$1" ]; then
   cd $sciezka
   for i in $( tree ); do
     if [ "$i" == "$2" ] ; then
-      let "x += 1"
+      let "licznik += 1"
     fi
   done
 else
-  echo "podaj prawidlowy parametr"
+  echo "Podany parametr jest niepoprawny"
 fi
 
 if [ -z $3] ; then
-  if [ -z $x ] ; then
-    echo "nie znalazlem :("
+  if [ -z $licznik ] ; then
+    echo "Niestety nie znaleziono"
   else
-    echo "znalazlem :)"
+    echo "Plik zostal znaleziony"
   fi
 fi
