@@ -7,11 +7,15 @@ dir=$(pwd)
 if [ -d "$1" ]; then
   sciezka="$dir/$1"
   cd $sciezka
+  krok=0
   for i in $( ls ); do
     if [ "$i" == "$2" ] ; then
       let "x += 1"
     else
       while [[ -d $i ]]; do
+        krok+=1
+        ls
+        echo $krok
         if [[ -d $i ]]; then
           cd $i
         fi
