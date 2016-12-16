@@ -4,60 +4,82 @@
 #include <sys/stat.h>
 #include <linux/stat.h>
 #include <string.h>
+#include <ctype.h>
 
 #define SERWERFIFO "serwerfifo"
 #define KLIENTFIFO "klientfifo"
 
-struct nazwiska{
+struct names{
   int ID;
-  char *nazwisko;
+  char *name;
 };
 
-int main(){
-  FILE *fp;
-  char readbuf[80];
-  char sample[80] = "test";
-  int i = 0;
-
-  struct nazwiska baza[20];
-  baza[0].nazwisko = "Nowak";
-  baza[1].nazwisko = "Kowalski";
-  baza[2].nazwisko = "Wisniewski";
-  baza[3].nazwisko = "Wojcik";
-  baza[4].nazwisko = "Kowalczyk";
-  baza[5].nazwisko = "Kaminski";
-  baza[6].nazwisko = "Lewandowski";
-  baza[7].nazwisko = "Dabrowski";
-  baza[8].nazwisko = "Zielinski";
-  baza[9].nazwisko = "Szymanski";
-  baza[10].nazwisko = "Wozniak";
-  baza[11].nazwisko = "Kozlowski";
-  baza[12].nazwisko = "Jankowski";
-  baza[13].nazwisko = "Mazur";
-  baza[14].nazwisko = "Wojciechowski";
-  baza[15].nazwisko = "Kwiatkowski";
-  baza[16].nazwisko = "Krawczyk";
-  baza[17].nazwisko = "Kaczmarek";
-  baza[18].nazwisko = "Piotrowski";
-  baza[19].nazwisko = "Grabowski";
-
-  for(i = 0; i < 20; i++){
-    baza[i].ID = i;
-  }
-
-  for(i = 0; i < 20; i++){
-    printf("%d %s\n", baza[i].ID, baza[i].nazwisko);
-  }
-
-  while(1){
-    fp = fopen(SERWERFIFO, "r");
-    fgets(readbuf, 80, fp);
-    if(strcmp(readbuf, sample) == 0){
-      printf("test działa\n");
+int main() {
+  FILE *input, *output;
+  int digit=0, length = 0, numer, j=0;
+  char bufor[70] = "", indeks[0] = "";
+  struct names spis[20];
+  spis[0].name = "Fabianski";
+  spis[1].name = "Wasilewski";
+  spis[2].name = "Pazdan";
+  spis[3].name = "Jodlowiec";
+  spis[4].name = "Piszczek";
+  spis[5].name = "Formela";
+  spis[6].name = "Lewandowski";
+  spis[7].name = "Boruc";
+  spis[8].name = "Milik";
+  spis[9].name = "Zielinski";
+  spis[10].name = "Teodorczyk";
+  spis[11].name = "Krychowiak";
+  spis[12].name = "Blaszczykowski";
+  spis[13].name = "Glik";
+  spis[14].name = "Grosicki";
+  spis[15].name = "Kapustka";
+  spis[16].name = "Peszko";
+  spis[17].name = "Kucharczyk";
+  spis[18].name = "Szczesny";
+  spis[19].name = "Robak";
+  char user[15] = "";
+  char answer[70] = "";
+  while (1) {
+    int i=0,length = 0;
+    numer = 0;
+    for(int z = 0; z < sizeof(bufor); z++) bufor[z] = '\0';
+    for(int z = 0; z < sizeof(answer); z++) answer[z] = '\0';
+    input = fopen(SERWERFIFO, "r");
+    fgets(bufor, 70, input);
+    fclose(input);
+    while (isdigit(bufor[digit])) {
+      digit+=1;
     }
-    // printf("%s ", sample);
-    printf("%s\n", readbuf);
-    fclose(fp);
+    while (bufor[length]!='\0') {
+      length+=1;
+    }
+    if (length>=10) {
+      indeks[0] = bufor[2];
+      indeks[1] = bufor[3];
+    } else {
+      indeks[0] = bufor[2];
+    }
+    for (i=2;i<=10;i++){
+      indeks[i]='\0';
+    }
+    for(int i=digit+6;i<length;i++){
+        user[j] = bufor[i];
+        j++;
+    }
+    numer = atoi(indeks);
+    if (numer>=20) {
+      strcpy(answer, "nie ma");
+    } else {
+      sscanf(spis[numer].name, "%s", answer);
+    }
+    if (digit>=5) {
+      strcpy(answer, "nie ma");
+    }
+    output = fopen(KLIENTFIFO,"w");
+    fprintf(output, "%s", answer);
+    fclose(output);
   }
-  return(0);
+  return 0;
 }
